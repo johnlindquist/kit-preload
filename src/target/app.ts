@@ -1,3 +1,5 @@
+import { assignPropsTo } from "../utils"
+
 let displayChoices = (choices: Choice<any>[]) => {
   switch (typeof choices) {
     case "string":
@@ -185,6 +187,23 @@ global.arg = async (placeholderOrConfig, choices) => {
     input,
   })
 }
+
+global.updateArgs = arrayOfArgs => {
+  let argv = require("minimist")(arrayOfArgs)
+  global.args = [...global.args, ...argv._]
+  global.argOpts = Object.entries(argv)
+    .filter(([key]) => key != "_")
+    .flatMap(([key, value]) => {
+      if (typeof value === "boolean") {
+        if (value) return [`--${key}`]
+        if (!value) return [`--no-${key}`]
+      }
+      return [`--${key}`, value]
+    })
+
+  assignPropsTo(argv, global.arg)
+}
+global.updateArgs(process.argv.slice(2))
 
 global.npm = async packageName => {
   try {

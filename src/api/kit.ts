@@ -2,10 +2,6 @@
 //we may be able to convert this to .js if an "--import" flag is added
 //https://github.com/nodejs/node/issues/35103
 
-let context = require(`./${
-  process.env?.KIT_CONTEXT === "app" ? "app" : "tty"
-}.cjs`)
-
 global.attemptImport = async (path, ..._args) => {
   global.updateArgs(_args)
   try {
@@ -73,11 +69,11 @@ global.runSub = async (scriptPath, ...runArgs) => {
         "--require",
         "dotenv/config",
         "--require",
-        global.kitPath("preload/api.cjs"),
+        global.kitPath("preload/api.js"),
         "--require",
-        global.kitPath("preload/kit.cjs"),
+        global.kitPath("preload/kit.js"),
         "--require",
-        global.kitPath("preload/mac.cjs"),
+        global.kitPath("preload/mac.js"),
       ],
       //Manually set node. Shouldn't have to worry about PATH
       execPath: global.env.KIT_NODE,

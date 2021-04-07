@@ -9,7 +9,7 @@ import * as handlebars from "handlebars"
 import * as uuidType from "uuid"
 import * as clipboardy from "clipboardy"
 import { AdapterOptions, lowdb, LowdbSync } from "lowdb"
-import trashType from "trash"
+import * as trashType from "trash"
 import { LoDashStatic } from "lodash"
 import { ChalkFunction } from "chalk"
 

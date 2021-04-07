@@ -1,5 +1,6 @@
 import { LoDashStatic } from "lodash"
 import { Options } from "trash"
+import { assignPropsTo } from "../utils"
 
 let globalApi = {
   cd: "shelljs",
@@ -117,32 +118,6 @@ global.isBin = async bin =>
 
 // TODO: Strip out minimist
 global.args = []
-
-let assignPropsTo = (
-  source: { [s: string]: unknown } | ArrayLike<unknown>,
-  target: { [x: string]: unknown }
-) => {
-  Object.entries(source).forEach(([key, value]) => {
-    target[key] = value
-  })
-}
-
-global.updateArgs = arrayOfArgs => {
-  let argv = require("minimist")(arrayOfArgs)
-  global.args = [...global.args, ...argv._]
-  global.argOpts = Object.entries(argv)
-    .filter(([key]) => key != "_")
-    .flatMap(([key, value]) => {
-      if (typeof value === "boolean") {
-        if (value) return [`--${key}`]
-        if (!value) return [`--no-${key}`]
-      }
-      return [`--${key}`, value]
-    })
-
-  assignPropsTo(argv, global.arg)
-}
-global.updateArgs(process.argv.slice(2))
 
 global.env = async (
   envKey,
