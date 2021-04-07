@@ -1,0 +1,9 @@
+{
+  "compilerOptions": {
+    "esModuleInterop": true,
+    "rootDir": "./",
+    "outDir": "../kit-preload-out",
+    "target": "ES2020",
+    "module": "CommonJS"
+  }
+}
